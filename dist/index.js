@@ -26,8 +26,9 @@ async function run() {
     }
     
     core.info((new Date()).toTimeString());
-    core.exportVariable('REZIO_ENV', env)
+    core.exportVariable('REZIO_ENV', env);
     core.setOutput('rezio-env', env);
+    core.exportVariable('DOMAIN_PREFIX', env === 'sit' ? 'prototype-' : '')
   } catch (error) {
     core.setFailed(error.message);
   }
