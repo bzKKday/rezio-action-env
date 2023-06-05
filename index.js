@@ -17,10 +17,18 @@ async function run() {
     } else {
       core.info('unknown environment!')
     }
-    
     core.info((new Date()).toTimeString());
     core.exportVariable('REZIO_ENV', env);
     core.setOutput('rezio-env', env);
+
+
+    const region = (env === 'prod' || env === 'sta') ? 'ap-northeast-1' : 'ap-southeast-1'
+    const cluster = (env === 'prod' || env === 'sta') ? 'tako-prod' : env === 'uat' ? 'tako-uat' : 'rezio-dev'
+    core.exportVariable('AWS_REGION', region);
+    core.setOutput('aws-region', region);
+    core.exportVariable('EKS_CLUSTER', cluster);
+    core.setOutput('eks-cluster', cluster);
+
     core.exportVariable('DOMAIN_PREFIX', env === 'sit' ? 'prototype-' : '')
   } catch (error) {
     core.setFailed(error.message);
